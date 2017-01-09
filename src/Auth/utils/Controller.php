@@ -13,17 +13,16 @@
 
       public function register($u, $p)
       {
-          $p = base64_encode(
-            md5($p)
+          $p = password_hash(
+              base64_encode($p),
+              PASSWORD_DEFAULT, ['cost' => 9]
           );
           return $this->model->register($u, $p);
       }
 
       public function login($u, $p)
       {
-          $p = base64_encode(
-              md5($p)
-          );
+          $p = base64_encode($p);
           return $this->model->login($u, $p);
       }
   }
