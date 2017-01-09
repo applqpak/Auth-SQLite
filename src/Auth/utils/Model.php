@@ -13,7 +13,6 @@
       public function register($u, $p)
       {
           $this->db->prepare('CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR NOT NULL, password VARCHAR NOT NULL);')->execute();
-          $this->db->prepare('CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR NOT NULL, password VARCHAR NOT NULL);')->execute();
           $stmt    = $this->db->prepare('SELECT password FROM users WHERE username=:username;');
           $stmt->bindValue(':username', $u);
           $stmt->execute();
@@ -40,7 +39,7 @@
           {
               foreach($results as $row)
               {
-                  if(($row['password'] === $p))
+                  if(password_verify($p, $row['password']))
                   {
                       return true;
                   }
